@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        dockerTool 'Dockertool'  // Cambia el nombre de la herramienta según tu configuración en Jenkins
+        dockerTool 'Docker'  // Cambia el nombre de la herramienta según tu configuración en Jenkins
     }
 
     environment {
