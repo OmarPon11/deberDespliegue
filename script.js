@@ -92,5 +92,15 @@ async function pagar() {
     alert("Ocurrió un error al conectar con PayPhone.");
   }
 }
+// Exportaciones para testing
+if (typeof module !== "undefined") {
+  module.exports = {
+    productos,
+    carrito,
+    agregarACarrito,
+    getTotal: () => total,
+    resetTotal: () => { total = 0; carrito.length = 0; }
+  };
+}
 
 renderProductos();

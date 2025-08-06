@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     tools {
-        dockerTool 'Docker'  // Cambia el nombre de la herramienta según tu configuración en Jenkins
+        nodejs "NodeJS24"                 // Herramienta Node.js configurada en Jenkins
+        dockerTool 'Docker'         // Herramienta Docker configurada en Jenkins
     }
 
     environment {
@@ -13,14 +14,37 @@ pipeline {
     }
 
     stages {
+        stage('Preparar permisos') {
+            steps {
+                echo "Ajustando permisos para evitar errores..."
+                sh 'chmod -R 755 .'
+            }
+        }
+
+        stage('Instalar dependencias') {
+            steps {
+                echo "nstalando dependencias con npm..."
+                sh 'npm install'
+            }
+        }
+
+        stage('Ejecutar tests') {
+            steps {
+                echo "Ejecutando pruebas con Jest..."
+                sh 'npm test'
+            }
+        }
+
         stage('Construir Imagen Docker') {
             steps {
+                echo "Construyendo imagen Docker..."
                 sh 'docker build -t $IMAGE_NAME .'
             }
         }
 
         stage('Desplegar Contenedor') {
             steps {
+                echo "Desplegando contenedor..."
                 sh '''
                     docker stop $CONTAINER_NAME || true
                     docker rm $CONTAINER_NAME || true
@@ -35,7 +59,7 @@ pipeline {
             echo "✅ Despliegue exitoso en http://localhost:$HOST_PORT"
         }
         failure {
-            echo "❌ Falló el despliegue"
+            echo "❌ Falló el pipeline. Verifica los logs de cada etapa."
         }
     }
 }
