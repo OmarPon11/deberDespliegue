@@ -32,7 +32,7 @@ describe('Ponce Motors - Tests de carrito de autos', () => {
     const lista = document.getElementById("lista-carrito");
     expect(lista).not.toBeNull();
     expect(lista.children.length).toBe(1);
-    expect(lista.textContent).toContain("Audio R8");
+    expect(lista.textContent).toContain("Audi R8");
 
     const totalTexto = document.getElementById("total").textContent;
     expect(totalTexto).toBe("120000.00");
