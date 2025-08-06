@@ -4,21 +4,24 @@ const storeId = "dcd37f2d-b0f8-4fc7-a79b-9c7361e788ba";
 
 const productos = [
   { nombre: "Mercedes Benz clase C", precio: 65000.00, img: "images/mercedes.jpeg" },
-  { nombre: "Audio R8", precio: 120000.00, img: "images/audi.jpeg" },
+  { nombre: "Audi R8", precio: 120000.00, img: "images/audi.jpeg" },
   { nombre: "Eclipse Cross", precio: 30000.00, img: "images/elip.jpeg" },
   { nombre: "Ferrari SF90 Stradale", precio: 150000.00, img: "images/lambo.jpeg" },
   { nombre: "Lamborghini Urus", precio: 110000.00, img: "images/urus.jpeg" },
-  { nombre: "Ford Raptor ", precio: 85000.50, img: "images/ford.jpeg" }
+  { nombre: "Ford Raptor", precio: 85000.50, img: "images/ford.jpeg" }
 ];
 
 let carrito = [];
 let total = 0;
 
-const grid = document.getElementById("product-grid");
-const listaCarrito = document.getElementById("lista-carrito");
-const totalSpan = document.getElementById("total");
+// Elementos del DOM (pueden ser null en entorno de test)
+const grid = typeof document !== "undefined" ? document.getElementById("product-grid") : null;
+const listaCarrito = typeof document !== "undefined" ? document.getElementById("lista-carrito") : null;
+const totalSpan = typeof document !== "undefined" ? document.getElementById("total") : null;
 
 function renderProductos() {
+  if (!grid) return; // ← Importante para evitar error en entorno de test
+
   productos.forEach(p => {
     const card = document.createElement("div");
     card.className = "product-card";
@@ -39,6 +42,8 @@ function agregarACarrito(producto) {
 }
 
 function actualizarCarrito() {
+  if (!listaCarrito || !totalSpan) return;
+
   listaCarrito.innerHTML = "";
   carrito.forEach(p => {
     const item = document.createElement("li");
@@ -92,6 +97,7 @@ async function pagar() {
     alert("Ocurrió un error al conectar con PayPhone.");
   }
 }
+
 // Exportaciones para testing
 if (typeof module !== "undefined") {
   module.exports = {
@@ -103,4 +109,7 @@ if (typeof module !== "undefined") {
   };
 }
 
-renderProductos();
+// Solo renderiza productos si el DOM está disponible
+if (typeof document !== "undefined" && document.getElementById("product-grid")) {
+  renderProductos();
+}
