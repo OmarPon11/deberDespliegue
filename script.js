@@ -42,6 +42,9 @@ function agregarACarrito(producto) {
 }
 
 function actualizarCarrito() {
+  const listaCarrito = document.getElementById("lista-carrito");
+  const totalSpan = document.getElementById("total");
+
   if (!listaCarrito || !totalSpan) return;
 
   listaCarrito.innerHTML = "";
@@ -52,6 +55,7 @@ function actualizarCarrito() {
   });
   totalSpan.textContent = total.toFixed(2);
 }
+
 
 async function pagar() {
   if (total === 0) {
